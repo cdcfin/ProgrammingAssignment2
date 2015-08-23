@@ -73,6 +73,8 @@ cacheSolve <- function(x, ...) {
   xInverse = x$getInverse()
   if (!is.null(xInverse)) {
     
+    # the cached inverse is stored as a list of the inverse matrix and calculation options
+    
     if (xInverse$calcOptions == currCalcOptions) {
       # cached inverse matrix should be valid - same calculation options were used, so return the cached value
       message("cacheSolve: returning cached inverse matrix")
@@ -80,11 +82,13 @@ cacheSolve <- function(x, ...) {
     }
   }
   
-  # calculate and store the inverse
+  # calculate the inverse matrix
   xMatrix <- x$get()
   xInverseMatrix <- solve(xMatrix, ...)
+  
+  # store the inverse and the calculation options used
   x$setInverse(list(matrix=xInverseMatrix, calcOptions=currCalcOptions))
   
-  # return the inverse
+  # return the inverse matrix
   return(xInverseMatrix)
 }
